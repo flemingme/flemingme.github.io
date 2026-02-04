@@ -1,0 +1,165 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>ip定位 | Fleming's Blog</title><meta name="author" content="Fleming Chen"><meta name="copyright" content="Fleming Chen"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="1、自有搭建IP 定位框架 GeoIP2 for Java：https:&#x2F;&#x2F;blog.csdn.net&#x2F;GodSuzzZ&#x2F;article&#x2F;details&#x2F;108095385官网：https:&#x2F;&#x2F;www.maxmind.com&#x2F;en&#x2F;geoip2-services-and-databasespy：https:&#x2F;&#x2F;pypi.org&#x2F;project&#x2F;geoip2&#x2F;#description 2、免费转接寻">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ip定位">
+<meta property="og:url" content="https://flemingme.github.io/2022/02/08/%E7%BB%8F%E9%AA%8C/ip%E5%AE%9A%E4%BD%8D/index.html">
+<meta property="og:site_name" content="Fleming&#39;s Blog">
+<meta property="og:description" content="1、自有搭建IP 定位框架 GeoIP2 for Java：https:&#x2F;&#x2F;blog.csdn.net&#x2F;GodSuzzZ&#x2F;article&#x2F;details&#x2F;108095385官网：https:&#x2F;&#x2F;www.maxmind.com&#x2F;en&#x2F;geoip2-services-and-databasespy：https:&#x2F;&#x2F;pypi.org&#x2F;project&#x2F;geoip2&#x2F;#description 2、免费转接寻">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://flemingme.github.io/img/avatar.png">
+<meta property="article:published_time" content="2022-02-08T09:16:33.408Z">
+<meta property="article:modified_time" content="2022-02-08T09:16:57.653Z">
+<meta property="article:author" content="Fleming Chen">
+<meta property="article:tag" content="经验">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://flemingme.github.io/img/avatar.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "ip定位",
+  "url": "https://flemingme.github.io/2022/02/08/%E7%BB%8F%E9%AA%8C/ip%E5%AE%9A%E4%BD%8D/",
+  "image": "https://flemingme.github.io/img/avatar.png",
+  "datePublished": "2022-02-08T09:16:33.408Z",
+  "dateModified": "2022-02-08T09:16:57.653Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Fleming Chen",
+      "url": "https://flemingme.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://flemingme.github.io/2022/02/08/%E7%BB%8F%E9%AA%8C/ip%E5%AE%9A%E4%BD%8D/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.json","preload":true,"top_n_per_article":3,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'ip定位',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 6.1.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">97</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">33</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user-circle"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/default-top.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Fleming's Blog</span></a><a class="nav-page-title" href="/"><span class="site-name">ip定位</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user-circle"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">ip定位</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-02-08T09:16:33.408Z" title="发表于 2022-02-08 17:16:33">2022-02-08</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-02-08T09:16:57.653Z" title="更新于 2022-02-08 17:16:57">2022-02-08</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%BB%8F%E9%AA%8C/">经验</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>1、自有搭建<br>IP 定位框架 GeoIP2 for Java：<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/GodSuzzZ/article/details/108095385">https://blog.csdn.net/GodSuzzZ/article/details/108095385</a><br>官网：<br><a target="_blank" rel="noopener" href="https://www.maxmind.com/en/geoip2-services-and-databases">https://www.maxmind.com/en/geoip2-services-and-databases</a><br>py：<br><a target="_blank" rel="noopener" href="https://pypi.org/project/geoip2/#description">https://pypi.org/project/geoip2/#description</a></p>
+<p>2、免费转接<br>寻找免费获取ip信息站点经过我们自己服务转一下<br><a target="_blank" rel="noopener" href="https://ipapi.co/218.104.82.74/json">https://ipapi.co/218.104.82.74/json</a></p>
+<p>3、付费接口<br><a target="_blank" rel="noopener" href="https://timezoneapi.io/api/ip/?token=aeLjNqtdVzUgQeiYumTC">https://timezoneapi.io/api/ip/?token=aeLjNqtdVzUgQeiYumTC</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://flemingme.github.io">Fleming Chen</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://flemingme.github.io/2022/02/08/%E7%BB%8F%E9%AA%8C/ip%E5%AE%9A%E4%BD%8D/">https://flemingme.github.io/2022/02/08/%E7%BB%8F%E9%AA%8C/ip%E5%AE%9A%E4%BD%8D/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://flemingme.github.io" target="_blank">Fleming's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%BB%8F%E9%AA%8C/">经验</a></div><div class="post-share"><div class="social-share" data-image="/img/avatar.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>If you like my article, you can reward me to support my writing.</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/reward/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/reward/wechat.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/reward/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/reward/alipay.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2022/02/08/%E4%BB%A3%E7%A0%81/Kotlin%E8%AF%AD%E6%B3%95%E7%B3%96/" title="Kotlin语法糖"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Kotlin语法糖</div></div><div class="info-2"><div class="info-item-1">Kotlin语法糖Kotlin 是一种现代编程语言，它引入了许多语法糖和特性，旨在提高代码的简洁性和可读性。以下是一些 Kotlin 中常用的语法糖和特性： 1. 数据类（Data Classes）Kotlin 的数据类自动生成常见的方法，如 equals(), hashCode(), toString(), copy() 等。 1data class User(val name: String, val age: Int)  2. 属性委托（Property Delegates）属性委托允许你将属性的 getter 和 setter 代理给另一个对象。 12345class User &#123;    var name: String by Delegates.observable(&quot;John Doe&quot;) &#123; prop, old, new -&gt;        println(&quot;$old -&gt; $new&quot;)    &#125;&#125;  3. 智能转换（Smart Casts）Kotlin 的智能转换允许你在类型...</div></div></div></a><a class="pagination-related" href="/2022/02/08/%E4%BB%A3%E7%A0%81/%E5%9B%BE%E7%89%87%E4%B8%8B%E8%BD%BD%E5%8F%8A%E4%BF%9D%E5%AD%98/" title="图片下载及保存"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">图片下载及保存</div></div><div class="info-2"><div class="info-item-1">图片下载及保存 确定文件的下载路径，context.getExternalFilesDir(“images”)，即app外部存储的files路径，无须动态权限声明 创建URL对象，val url &#x3D; URL(path)，由图片的下载地址创建 通过url.openConnection()打开连接，获取连接对象 连接conn.connect() 获取输入流，val input: InputStream &#x3D; conn.getInputStream() 创建输出流，准备写入val fos &#x3D; FileOutputStream(out) 标准io操作，将读到的字节写入到文件中  1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253try &#123;    val buf = ByteArray(1024)    var numRead: Int    fos.run &#123;        while ((inpu...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2022/02/08/%E7%BB%8F%E9%AA%8C/Retrofit%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98/" title="Retrofit面试问题"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-08</div><div class="info-item-2">Retrofit面试问题</div></div><div class="info-2"><div class="info-item-1">Retrofit面试问题介绍下Retrofit框架,Retrofit为什么要包装okhttp呢？ Retrofit 是一个类型安全的HTTP客户端，用于Android和Java应用。它允许你通过定义接口来描述HTTP请求，包括URL、请求方法（GET, POST等）、请求头以及请求体等内容。 Retrofit 包装了 OkHttp 主要是为了提供更高级别的抽象，简化网络请求的配置与执行。OkHttp 是一个高效的HTTP客户端，而 Retrofit 在其基础上提供了对REST API更加友好的支持，如动态代理、注解配置请求、数据转换等。  Retrofit主要实现机制？Retrofit的作用、原理 Retrofit 的核心是使用动态代理来创建接口的实现类，将HTTP请求的方法调用转化为实际的网络请求。它的作用是让开发者以一种声明式的方式来定义网络请求，并且可以很容易地进行扩展和修改。  底层是如何用 OkHttp 请求的？ 在底层，Retrofit 使用 OkHttp 发送网络请求。当你构建了一个 Retrofit 实例时，你可以为其指定一个 OkHttpClient 对象，这样...</div></div></div></a><a class="pagination-related" href="/2023/02/08/%E7%BB%8F%E9%AA%8C/Android%E7%9A%84%E6%94%AF%E6%8C%81%E5%BA%93%E6%95%B4%E7%90%86/" title="Android的支持库整理"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-08</div><div class="info-item-2">Android的支持库整理</div></div><div class="info-2"><div class="info-item-1">Android的支持库整理Android 支持库（Support Libraries）是一个集合，包含了多个不同的库，每个库都支持特定的 Android 版本和功能。随着时间的发展和技术的进步，这些库也在不断演变。以下是 Android 支持库的主要分类及其用途：  Compatibility Libraries (兼容性库)  v4 (support-v4)：提供了核心兼容性功能，如 Fragment、ViewPager 等，使得开发者可以在低版本 Android 上使用较新的 API 功能。 v7 (appcompat-v7, recyclerview-v7, cardview-v7, 等)：提供了更高级的 UI 组件和行为，如 Material Design 组件（Toolbar、CardView）、RecyclerView 等。   Material Components Library (材料组件库)  material (material-components)：包含了 Material Design 组件，如 BottomNavigationView、Floatin...</div></div></div></a><a class="pagination-related" href="/2024/02/13/%E7%BB%8F%E9%AA%8C/%E5%85%B3%E4%BA%8EGradle%E7%89%88%E6%9C%AC%E9%85%8D%E7%BD%AE/" title="关于Gradle版本配置"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-02-13</div><div class="info-item-2">关于Gradle版本配置</div></div><div class="info-2"><div class="info-item-1">关于Gradle版本配置✅ 项目里“真正被 Gradle 选中参与构建”的所有依赖👉 都会被下载到 .gradle&#x2F;caches 下 ✅ 这些依赖的“具体版本”👉 最终来自：第三方库自身的版本声明 + Gradle 的依赖解析结果 老项目 AGP -&gt; 最高7.4.2, gradle-7.5-bin JVM -&gt; 11及以下  新项目 AGP -&gt; 8.0.0及以上, 最低gradle-8.0-bin推荐：2024  AGP:8.3.2  gradle:8.4-bin以上  kotlin:1.9.20 JVM -&gt; 17及以上 需要配置namespace  关于Kotlin   AGP 推荐 Kotlin    7.4.x 1.7.20   8.0.x 1.8.10   8.1.x 1.8.20   8.2.x 1.9.0   8.3.x 1.9.20   </div></div></div></a><a class="pagination-related" href="/2020/02/08/%E7%BB%8F%E9%AA%8C/%E5%85%B3%E4%BA%8EEventBus/" title="关于EventBus"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2020-02-08</div><div class="info-item-2">关于EventBus</div></div><div class="info-2"><div class="info-item-1">关于EventBus12EventBus.getDefault().register(this)EventBus.getDefault().unregister(this)  @Subscribe 订阅者方法ThreadMode 决定了订阅者的行为处理在主线程还是子线程，也是就耗时操作尽量开辟子线程，避免ANR等等，一般默认就行    发布者 在主线程发送事件 在子线程发送事件    main 主线程 主线程   posting 主线程 子线程   async 新开一个子线程 新开一个子线程   background 新开一个子线程 子线程   12345678910111213141516171819202122232425262728@Subscribe(threadMode = ThreadMode.MAIN) public void MessageEventBus(EventBusMessage eventBusMessage)&#123;    //在TextView显示接收的消息,从这个类里拿属性.    tv_title.setText(eventBusMessag...</div></div></div></a><a class="pagination-related" href="/2017/08/13/%E7%BB%8F%E9%AA%8C/%E5%A6%82%E4%BD%95%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8SQLite%E6%95%B0%E6%8D%AE%E5%BA%93/" title="如何创建和使用SQLite数据库"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2017-08-13</div><div class="info-item-2">如何创建和使用SQLite数据库</div></div><div class="info-2"><div class="info-item-1">前言什么是SQLite？SQLite是一款轻型数据库，它遵守ACID，能够嵌入到使用它的应用程序中。作为一个自包含的、基于文件的数据库，SQLite提供了非常出色的工具集能够处理所有类型的数据，与托管在服务器上基于进程的关系型数据库相比它的约束更少，也更易用。 当应用程序使用SQLite时，SQLite并非作为一个独立进程通过某种通信协议（例如socket）与应用程序通信，而是作为应用程序的一部分，应用程序通过调用SQLite的接口直接访问数据文件。 为什么要用 SQLite？ 不需要一个单独的服务器进程或操作的系统（无服务器的）。 SQLite 不需要配置，这意味着不需要安装或管理。 一个完整的 SQLite 数据库是存储在一个单一的跨平台的磁盘文件。 SQLite 是非常小的，是轻量级的，完全配置时小于 400KiB，省略可选功能配置时小于250KiB。 SQLite 是自给自足的，这意味着不需要任何外部的依赖。 SQLite 事务是完全兼容 ACID 的，允许从多个进程或线程安全访问。 SQLite 支持 SQL92（SQL2）标准的大多数查询语言的功能。 SQLite 使...</div></div></div></a><a class="pagination-related" href="/2020/02/08/%E7%BB%8F%E9%AA%8C/APK%E5%8F%8D%E7%BC%96%E8%AF%91%E6%B5%81%E7%A8%8B%E8%AF%A6%E8%A7%A3/" title="APK反编译流程详解"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2020-02-08</div><div class="info-item-2">APK反编译流程详解</div></div><div class="info-2"><div class="info-item-1">APK反编译流程详解 反编译apk1java -jar /d/studies/Decompile/apktool_2.7.0.jar d source.apk -o output   将.dex转换为.jar 1/d/studies/Decompile/dex-tools-v2.4/d2j-dex2jar.sh classes.dex -o classes.jar  利用jd-gui查看classes.jar 1java -jar /d/studies/Decompile/jd-gui-1.6.6.jar classes.jar  利用jadx直接反编译apk 1/d/studies/Decompile/jadx-1.5.1/bin/jadx-gui your-app.apk  反编译后重新签名 修改后重新编译成未签名的apk1java -jar /d/studies/Decompile/apktool_2.7.0.jar b output -o target.apk --use-aapt2  –use-aapt2 参数指定使用AAPT2工具进行构建，这通常能更好地处理资源文件 ...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Fleming Chen</div><div class="author-info-description">不积跬步无以至千里，不积小流无以成江海。——《荀子·劝学》</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">97</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">33</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/flemingme"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/flemingme" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:flemingchen@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="https://x.com/fleming_chen" target="_blank" title="X"><i class="fab fa-x" style="color: #1da1f2;"></i></a><a class="social-icon" href="https://www.zhihu.com/people/flemingchen" target="_blank" title="Zhihu"><i class="fab fa-zhihu" style="color: #0084ff;"></i></a><a class="social-icon" href="https://flemingme.github.io/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss" style="color: #ff6b35;"></i></a><a class="social-icon" href="https://juejin.cn/user/2172290703832125" target="_blank" title="Juejin"><i class="fab fa-juejin" style="color: #1e80ff;"></i></a><a class="social-icon" href="https://www.jianshu.com/u/4864c735a8fc" target="_blank" title="Jianshu"><i class="fab fa-jianshu" style="color: #f6043e;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Welcome to my blog!</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/01/16/%E9%9F%B3%E9%A2%91/%E9%9F%B3%E9%A2%91%E6%B5%81%E5%A4%84%E7%90%86%E8%BF%87%E7%A8%8B/" title="音频流处理过程">音频流处理过程</a><time datetime="2026-01-16T02:51:17.037Z" title="发表于 2026-01-16 10:51:17">2026-01-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/01/06/%E9%9F%B3%E9%A2%91/AOIP%E5%92%8CVOIP/" title="AOIP和VOIP">AOIP和VOIP</a><time datetime="2026-01-06T01:33:54.800Z" title="发表于 2026-01-06 09:33:54">2026-01-06</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/08/28/%E9%9F%B3%E9%A2%91/AudioFlinger%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" title="AudioFlinger的基本概念">AudioFlinger的基本概念</a><time datetime="2025-08-28T03:09:00.629Z" title="发表于 2025-08-28 11:09:00">2025-08-28</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/08/20/%E9%9F%B3%E9%A2%91/%E9%9F%B3%E9%A2%91%E9%A2%86%E5%9F%9F%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" title="音频领域基本概念">音频领域基本概念</a><time datetime="2025-08-20T01:51:40.515Z" title="发表于 2025-08-20 09:51:40">2025-08-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/08/19/%E6%89%A9%E5%B1%95/Unicast%E3%80%81Multicast%E3%80%81Broadcast%E7%9A%84%E5%90%AB%E4%B9%89%E5%8F%8A%E5%85%B3%E7%B3%BB/" title="Unicast、Multicast、Broadcast的含义及关系">Unicast、Multicast、Broadcast的含义及关系</a><time datetime="2025-08-19T01:56:56.936Z" title="发表于 2025-08-19 09:56:56">2025-08-19</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/footer.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2016 - 2026 By Fleming Chen</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 6.1.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章..." type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.4"></script></div></div></body></html>

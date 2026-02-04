@@ -1,0 +1,174 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>新版logcat的过滤关键字 | Fleming's Blog</title><meta name="author" content="Fleming Chen"><meta name="copyright" content="Fleming Chen"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="新版logcat的过滤关键字 package：匹配记录日志的软件包名，其中特殊值mine匹配当前打开项目对应的应用log。 level：与指定或者更高级别的日志匹配，比如debug或者error，输入level后as会自动提示可以选择。 tag: 匹配日志的tag字段 message：匹配日志中我们自己填写的message的部分。 age：让窗口中只保留最近一段时间的log，值为数字加单位，s表示">
+<meta property="og:type" content="article">
+<meta property="og:title" content="新版logcat的过滤关键字">
+<meta property="og:url" content="https://flemingme.github.io/2023/02/08/%E7%BB%8F%E9%AA%8C/%E6%96%B0%E7%89%88logcat%E7%9A%84%E8%BF%87%E6%BB%A4%E5%85%B3%E9%94%AE%E5%AD%97/index.html">
+<meta property="og:site_name" content="Fleming&#39;s Blog">
+<meta property="og:description" content="新版logcat的过滤关键字 package：匹配记录日志的软件包名，其中特殊值mine匹配当前打开项目对应的应用log。 level：与指定或者更高级别的日志匹配，比如debug或者error，输入level后as会自动提示可以选择。 tag: 匹配日志的tag字段 message：匹配日志中我们自己填写的message的部分。 age：让窗口中只保留最近一段时间的log，值为数字加单位，s表示">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://flemingme.github.io/img/avatar.png">
+<meta property="article:published_time" content="2023-02-08T07:30:08.373Z">
+<meta property="article:modified_time" content="2023-02-08T08:18:57.935Z">
+<meta property="article:author" content="Fleming Chen">
+<meta property="article:tag" content="经验">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://flemingme.github.io/img/avatar.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "新版logcat的过滤关键字",
+  "url": "https://flemingme.github.io/2023/02/08/%E7%BB%8F%E9%AA%8C/%E6%96%B0%E7%89%88logcat%E7%9A%84%E8%BF%87%E6%BB%A4%E5%85%B3%E9%94%AE%E5%AD%97/",
+  "image": "https://flemingme.github.io/img/avatar.png",
+  "datePublished": "2023-02-08T07:30:08.373Z",
+  "dateModified": "2023-02-08T08:18:57.935Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Fleming Chen",
+      "url": "https://flemingme.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://flemingme.github.io/2023/02/08/%E7%BB%8F%E9%AA%8C/%E6%96%B0%E7%89%88logcat%E7%9A%84%E8%BF%87%E6%BB%A4%E5%85%B3%E9%94%AE%E5%AD%97/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.json","preload":true,"top_n_per_article":3,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '新版logcat的过滤关键字',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 6.1.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">97</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">33</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user-circle"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/default-top.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Fleming's Blog</span></a><a class="nav-page-title" href="/"><span class="site-name">新版logcat的过滤关键字</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user-circle"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">新版logcat的过滤关键字</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-02-08T07:30:08.373Z" title="发表于 2023-02-08 15:30:08">2023-02-08</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-02-08T08:18:57.935Z" title="更新于 2023-02-08 16:18:57">2023-02-08</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%BB%8F%E9%AA%8C/">经验</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="新版logcat的过滤关键字"><a href="#新版logcat的过滤关键字" class="headerlink" title="新版logcat的过滤关键字"></a>新版logcat的过滤关键字</h1><ul>
+<li><code>package</code>：匹配记录日志的软件包名，其中特殊值mine匹配当前打开项目对应的应用log。</li>
+<li><code>level</code>：与指定或者更高级别的日志匹配，比如debug或者error，输入level后as会自动提示可以选择。</li>
+<li><code>tag</code>: 匹配日志的tag字段</li>
+<li><code>message</code>：匹配日志中我们自己填写的message的部分。</li>
+<li><code>age</code>：让窗口中只保留最近一段时间的log，值为数字加单位，s表示秒，m表示分钟，h表示小时，d表示天</li>
+<li><code>is</code>: 这个键有两个固定的value取值，crash匹配应用崩溃日志，stacktrace匹配任意类似java堆栈轨迹的日志</li>
+<li><code>process</code>：匹配记录日志的进程名</li>
+</ul>
+<p>正则相关<br><code>tag:GUI</code>         表示tag中包含“GUI”字符的<br><code>-tag:GUI</code>        表示tag中不包含“GUI”字符的</p>
+<p><code>tag=:GUI</code>        表示tag中等于“GUI”字符的（完全匹配）<br><code>-tag=:GUI</code>       表示tag中不等于“GUI”字符的</p>
+<p><code>tag~:^(http)(com/)$</code>        表示tag中满足正则规则的（以http开头以com&#x2F;结束的字符）<br><code>-tag~:^(http)(com/)$</code>        表示tag中不满足正则规则的（以http开头以com&#x2F;结束的字符）</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://flemingme.github.io">Fleming Chen</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://flemingme.github.io/2023/02/08/%E7%BB%8F%E9%AA%8C/%E6%96%B0%E7%89%88logcat%E7%9A%84%E8%BF%87%E6%BB%A4%E5%85%B3%E9%94%AE%E5%AD%97/">https://flemingme.github.io/2023/02/08/%E7%BB%8F%E9%AA%8C/%E6%96%B0%E7%89%88logcat%E7%9A%84%E8%BF%87%E6%BB%A4%E5%85%B3%E9%94%AE%E5%AD%97/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://flemingme.github.io" target="_blank">Fleming's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%BB%8F%E9%AA%8C/">经验</a></div><div class="post-share"><div class="social-share" data-image="/img/avatar.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>If you like my article, you can reward me to support my writing.</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/reward/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/reward/wechat.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/reward/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/reward/alipay.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2023/02/08/%E7%BB%8F%E9%AA%8C/Android%E7%9A%84%E6%94%AF%E6%8C%81%E5%BA%93%E6%95%B4%E7%90%86/" title="Android的支持库整理"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Android的支持库整理</div></div><div class="info-2"><div class="info-item-1">Android的支持库整理Android 支持库（Support Libraries）是一个集合，包含了多个不同的库，每个库都支持特定的 Android 版本和功能。随着时间的发展和技术的进步，这些库也在不断演变。以下是 Android 支持库的主要分类及其用途：  Compatibility Libraries (兼容性库)  v4 (support-v4)：提供了核心兼容性功能，如 Fragment、ViewPager 等，使得开发者可以在低版本 Android 上使用较新的 API 功能。 v7 (appcompat-v7, recyclerview-v7, cardview-v7, 等)：提供了更高级的 UI 组件和行为，如 Material Design 组件（Toolbar、CardView）、RecyclerView 等。   Material Components Library (材料组件库)  material (material-components)：包含了 Material Design 组件，如 BottomNavigationView、Floatin...</div></div></div></a><a class="pagination-related" href="/2022/08/26/%E7%B3%BB%E7%BB%9F/Soong%20%E6%9E%84%E5%BB%BA%E7%B3%BB%E7%BB%9F%E5%8E%9F%E7%90%86/" title="Soong 构建系统原理"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Soong 构建系统原理</div></div><div class="info-2"><div class="info-item-1">Soong 构建系统原理非常好的问题！我们来深入解析 AOSP 的 Soong 构建系统，它的编译原理、设计思想以及与传统构建系统的区别。 🌟 一句话总结 Soong 是 Google 为 AOSP 量身打造的下一代构建系统，它使用 Go 语言编写，基于 Ninja 构建引擎，通过 Android.bp 文件描述模块依赖和构建规则，目标是替代旧的 Make 系统（Android.mk），实现更快、更清晰、更可维护的系统级编译。   🔧 Soong 的核心组成   组件 作用    soong_ui 用户接口，替代 make，调用 soong_build   soong_build (Go) Soong 的核心逻辑，解析 Android.bp   Blueprint Soong 的底层框架（由 Google 开发），用于解析 .bp 文件   Android.bp 构建配置文件（类似 JSON 的语法）   Ninja 实际执行编译命令的底层引擎   Kati 将旧的 Android.mk 转成 Ninja 规则（兼容层）    🔄 Soong 的编译流程（原理详解）✅ 阶段...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2023/11/21/%E7%BB%8F%E9%AA%8C/ViewModel%E5%9C%A8Activity%E5%92%8CFragment%E4%B9%8B%E9%97%B4%E5%85%B1%E4%BA%AB/" title="ViewModel在Activity和Fragment之间共享"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-21</div><div class="info-item-2">ViewModel在Activity和Fragment之间共享</div></div><div class="info-2"><div class="info-item-1">ViewModel在Activity和Fragment之间共享在 Android 的 Jetpack ViewModel 架构组件中：  在 Activity 中使用 by viewModels() 创建的 ViewModel，默认作用域是该 Activity。 在 Fragment 中使用 by activityViewModels() 创建的 ViewModel，其作用域也是 宿主 Activity。  因此，只要 ViewModel 的类型相同，并且使用的是默认的 Factory 和 key（即没有自定义 key），那么无论你是在 Activity 中通过 viewModels() 还是在 Fragment 中通过 activityViewModels() 获取，它们都会共享同一个 ViewModel 实例。 原理简述ViewModel 是通过 ViewModelStoreOwner 来管理生命周期和存储的。    Activity 是一个 ViewModelStoreOwner。   viewModels() 在 Activity 中会从 Activity 自己的 Vie...</div></div></div></a><a class="pagination-related" href="/2018/12/05/%E7%BB%8F%E9%AA%8C/sqlite3%E6%9F%A5%E7%9C%8B%E6%95%B0%E6%8D%AE%E5%BA%93/" title="sqlite3查看数据库"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2018-12-05</div><div class="info-item-2">sqlite3查看数据库</div></div><div class="info-2"><div class="info-item-1">sqlite3查看数据库.db 文件通常是 SQLite 数据库文件。Room 是 Android 官方推荐的本地数据库库，它底层使用的就是 SQLite。因此，Room 生成的 .db 文件本质上就是一个标准的 SQLite 数据库文件。 你可以通过以下方式在电脑上查看 .db 文件的内容：  ✅ 方法一：使用 sqlite3 命令行工具（推荐）步骤如下： 安装 sqlite3 工具（如果尚未安装）：  macOS（通常已预装）：1sqlite3 --version Windows： 下载地址：https://www.sqlite.org/download.html 下载 sqlite-tools-win32-*.zip，解压后将 sqlite3.exe 加入系统 PATH。   Linux（Ubuntu&#x2F;Debian）：1sudo apt install sqlite3   打开终端（命令行）并进入 .db 文件所在目录，例如： 1cd /path/to/your/database/  使用 sqlite3 打开数据库： 1sqlite3 your_database...</div></div></div></a><a class="pagination-related" href="/2017/09/18/%E7%BB%8F%E9%AA%8C/%E5%90%AF%E5%8A%A8%E6%A8%A1%E5%BC%8F%20-%20intent/" title="启动模式 - intent"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2017-09-18</div><div class="info-item-2">启动模式 - intent</div></div><div class="info-2"><div class="info-item-1">启动模式 - intent好的，我们来详细对比 singleTop 与其他三种标准启动模式（standard, singleTask, singleInstance）在 Intent 获取方式 以及 核心行为 上的区别。 核心区别在于：系统何时会创建新实例，何时会复用旧实例，以及复用时如何传递新的 Intent。  1. standard (标准模式) 行为：这是默认模式。每次启动该 Activity，系统都会创建一个新的实例，并将其压入启动它的 Activity 所在的任务栈（Task）中。可以有多个实例，也可以在不同任务栈中存在。 Intent 获取： 只在 onCreate() 中获取。因为每次都是新实例，所以新的 Intent 总是通过 onCreate(Bundle savedInstanceState) -&gt; getIntent() 来获取。 onNewIntent() 永远不会被调用，因为没有复用旧实例的情况。   适用场景：大多数常规 Activity，例如详情页、设置页等，每次打开都希望是独立的新页面。   2. singleTop (栈顶复用模式) 行为...</div></div></div></a><a class="pagination-related" href="/2020/02/08/%E7%BB%8F%E9%AA%8C/maven%E6%8C%87%E4%BB%A4/" title="maven指令"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2020-02-08</div><div class="info-item-2">maven指令</div></div><div class="info-2"><div class="info-item-1">maven指令mvn -v &#x2F;&#x2F;查看版本mvn archetype:create &#x2F;&#x2F;创建 Maven 项目mvn compile &#x2F;&#x2F;编译源代码mvn test-compile &#x2F;&#x2F;编译测试代码mvn test &#x2F;&#x2F;运行应用程序中的单元测试mvn site &#x2F;&#x2F;生成项目相关信息的网站mvn package &#x2F;&#x2F;依据项目生成 jar 文件mvn install &#x2F;&#x2F;在本地 Repository 中安装 jarmvn -Dmaven.test.skip&#x3D;true &#x2F;&#x2F;忽略测试文档编译mvn clean &#x2F;&#x2F;清除目标目录中的生成结果mvn clean compile &#x2F;&#x2F;将.java类编译为.class文件mvn clean package &#x2F;&#x2F;进行打包mvn clean test &#x2F;&#x2F;执行单元测试mvn clean ...</div></div></div></a><a class="pagination-related" href="/2024/02/13/%E7%BB%8F%E9%AA%8C/%E5%85%B3%E4%BA%8EGradle%E7%89%88%E6%9C%AC%E9%85%8D%E7%BD%AE/" title="关于Gradle版本配置"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-02-13</div><div class="info-item-2">关于Gradle版本配置</div></div><div class="info-2"><div class="info-item-1">关于Gradle版本配置✅ 项目里“真正被 Gradle 选中参与构建”的所有依赖👉 都会被下载到 .gradle&#x2F;caches 下 ✅ 这些依赖的“具体版本”👉 最终来自：第三方库自身的版本声明 + Gradle 的依赖解析结果 老项目 AGP -&gt; 最高7.4.2, gradle-7.5-bin JVM -&gt; 11及以下  新项目 AGP -&gt; 8.0.0及以上, 最低gradle-8.0-bin推荐：2024  AGP:8.3.2  gradle:8.4-bin以上  kotlin:1.9.20 JVM -&gt; 17及以上 需要配置namespace  关于Kotlin   AGP 推荐 Kotlin    7.4.x 1.7.20   8.0.x 1.8.10   8.1.x 1.8.20   8.2.x 1.9.0   8.3.x 1.9.20   </div></div></div></a><a class="pagination-related" href="/2022/02/08/%E7%BB%8F%E9%AA%8C/Retrofit%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98/" title="Retrofit面试问题"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-08</div><div class="info-item-2">Retrofit面试问题</div></div><div class="info-2"><div class="info-item-1">Retrofit面试问题介绍下Retrofit框架,Retrofit为什么要包装okhttp呢？ Retrofit 是一个类型安全的HTTP客户端，用于Android和Java应用。它允许你通过定义接口来描述HTTP请求，包括URL、请求方法（GET, POST等）、请求头以及请求体等内容。 Retrofit 包装了 OkHttp 主要是为了提供更高级别的抽象，简化网络请求的配置与执行。OkHttp 是一个高效的HTTP客户端，而 Retrofit 在其基础上提供了对REST API更加友好的支持，如动态代理、注解配置请求、数据转换等。  Retrofit主要实现机制？Retrofit的作用、原理 Retrofit 的核心是使用动态代理来创建接口的实现类，将HTTP请求的方法调用转化为实际的网络请求。它的作用是让开发者以一种声明式的方式来定义网络请求，并且可以很容易地进行扩展和修改。  底层是如何用 OkHttp 请求的？ 在底层，Retrofit 使用 OkHttp 发送网络请求。当你构建了一个 Retrofit 实例时，你可以为其指定一个 OkHttpClient 对象，这样...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Fleming Chen</div><div class="author-info-description">不积跬步无以至千里，不积小流无以成江海。——《荀子·劝学》</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">97</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">33</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/flemingme"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/flemingme" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:flemingchen@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="https://x.com/fleming_chen" target="_blank" title="X"><i class="fab fa-x" style="color: #1da1f2;"></i></a><a class="social-icon" href="https://www.zhihu.com/people/flemingchen" target="_blank" title="Zhihu"><i class="fab fa-zhihu" style="color: #0084ff;"></i></a><a class="social-icon" href="https://flemingme.github.io/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss" style="color: #ff6b35;"></i></a><a class="social-icon" href="https://juejin.cn/user/2172290703832125" target="_blank" title="Juejin"><i class="fab fa-juejin" style="color: #1e80ff;"></i></a><a class="social-icon" href="https://www.jianshu.com/u/4864c735a8fc" target="_blank" title="Jianshu"><i class="fab fa-jianshu" style="color: #f6043e;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Welcome to my blog!</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%96%B0%E7%89%88logcat%E7%9A%84%E8%BF%87%E6%BB%A4%E5%85%B3%E9%94%AE%E5%AD%97"><span class="toc-number">1.</span> <span class="toc-text">新版logcat的过滤关键字</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/01/16/%E9%9F%B3%E9%A2%91/%E9%9F%B3%E9%A2%91%E6%B5%81%E5%A4%84%E7%90%86%E8%BF%87%E7%A8%8B/" title="音频流处理过程">音频流处理过程</a><time datetime="2026-01-16T02:51:17.037Z" title="发表于 2026-01-16 10:51:17">2026-01-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/01/06/%E9%9F%B3%E9%A2%91/AOIP%E5%92%8CVOIP/" title="AOIP和VOIP">AOIP和VOIP</a><time datetime="2026-01-06T01:33:54.800Z" title="发表于 2026-01-06 09:33:54">2026-01-06</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/08/28/%E9%9F%B3%E9%A2%91/AudioFlinger%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" title="AudioFlinger的基本概念">AudioFlinger的基本概念</a><time datetime="2025-08-28T03:09:00.629Z" title="发表于 2025-08-28 11:09:00">2025-08-28</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/08/20/%E9%9F%B3%E9%A2%91/%E9%9F%B3%E9%A2%91%E9%A2%86%E5%9F%9F%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" title="音频领域基本概念">音频领域基本概念</a><time datetime="2025-08-20T01:51:40.515Z" title="发表于 2025-08-20 09:51:40">2025-08-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/08/19/%E6%89%A9%E5%B1%95/Unicast%E3%80%81Multicast%E3%80%81Broadcast%E7%9A%84%E5%90%AB%E4%B9%89%E5%8F%8A%E5%85%B3%E7%B3%BB/" title="Unicast、Multicast、Broadcast的含义及关系">Unicast、Multicast、Broadcast的含义及关系</a><time datetime="2025-08-19T01:56:56.936Z" title="发表于 2025-08-19 09:56:56">2025-08-19</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/footer.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2016 - 2026 By Fleming Chen</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 6.1.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章..." type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.4"></script></div></div></body></html>

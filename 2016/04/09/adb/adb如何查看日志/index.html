@@ -1,0 +1,228 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>adb如何查看日志 | Fleming's Blog</title><meta name="author" content="Fleming Chen"><meta name="copyright" content="Fleming Chen"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="adb如何查看日志adb logcat 是 Android 调试桥（ADB）工具的一部分，用于从 Android 设备上获取日志数据。这些日志包括设备上运行的应用程序和系统本身的输出信息。以下是一些基本的 adb logcat 指令及其用法： 查看所有日志1adb logcat  查看特定缓冲区12345adb logcat -b mainadb logcat -b systemadb logca">
+<meta property="og:type" content="article">
+<meta property="og:title" content="adb如何查看日志">
+<meta property="og:url" content="https://flemingme.github.io/2016/04/09/adb/adb%E5%A6%82%E4%BD%95%E6%9F%A5%E7%9C%8B%E6%97%A5%E5%BF%97/index.html">
+<meta property="og:site_name" content="Fleming&#39;s Blog">
+<meta property="og:description" content="adb如何查看日志adb logcat 是 Android 调试桥（ADB）工具的一部分，用于从 Android 设备上获取日志数据。这些日志包括设备上运行的应用程序和系统本身的输出信息。以下是一些基本的 adb logcat 指令及其用法： 查看所有日志1adb logcat  查看特定缓冲区12345adb logcat -b mainadb logcat -b systemadb logca">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://flemingme.github.io/img/avatar.png">
+<meta property="article:published_time" content="2016-04-09T05:15:12.221Z">
+<meta property="article:modified_time" content="2016-12-17T01:03:01.341Z">
+<meta property="article:author" content="Fleming Chen">
+<meta property="article:tag" content="adb">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://flemingme.github.io/img/avatar.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "adb如何查看日志",
+  "url": "https://flemingme.github.io/2016/04/09/adb/adb%E5%A6%82%E4%BD%95%E6%9F%A5%E7%9C%8B%E6%97%A5%E5%BF%97/",
+  "image": "https://flemingme.github.io/img/avatar.png",
+  "datePublished": "2016-04-09T05:15:12.221Z",
+  "dateModified": "2016-12-17T01:03:01.341Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Fleming Chen",
+      "url": "https://flemingme.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://flemingme.github.io/2016/04/09/adb/adb%E5%A6%82%E4%BD%95%E6%9F%A5%E7%9C%8B%E6%97%A5%E5%BF%97/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.json","preload":true,"top_n_per_article":3,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'adb如何查看日志',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 6.1.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">97</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">33</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user-circle"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/default-top.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Fleming's Blog</span></a><a class="nav-page-title" href="/"><span class="site-name">adb如何查看日志</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user-circle"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">adb如何查看日志</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2016-04-09T05:15:12.221Z" title="发表于 2016-04-09 13:15:12">2016-04-09</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2016-12-17T01:03:01.341Z" title="更新于 2016-12-17 09:03:01">2016-12-17</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/ADB/">ADB</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="adb如何查看日志"><a href="#adb如何查看日志" class="headerlink" title="adb如何查看日志"></a>adb如何查看日志</h1><p><code>adb logcat</code> 是 Android 调试桥（ADB）工具的一部分，用于从 Android 设备上获取日志数据。这些日志包括设备上运行的应用程序和系统本身的输出信息。以下是一些基本的 <code>adb logcat</code> 指令及其用法：</p>
+<h2 id="查看所有日志"><a href="#查看所有日志" class="headerlink" title="查看所有日志"></a>查看所有日志</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb logcat</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看特定缓冲区"><a href="#查看特定缓冲区" class="headerlink" title="查看特定缓冲区"></a>查看特定缓冲区</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">adb logcat -b main</span><br><span class="line">adb logcat -b system</span><br><span class="line">adb logcat -b radio</span><br><span class="line">adb logcat -b events</span><br><span class="line">adb logcat -b crash</span><br></pre></td></tr></table></figure>
+
+<h2 id="按标签过滤"><a href="#按标签过滤" class="headerlink" title="按标签过滤"></a>按标签过滤</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb logcat -s <span class="string">&quot;MyTag&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="按级别过滤（V-x2F-D-x2F-I-x2F-W-x2F-E-x2F-F-x2F-S）"><a href="#按级别过滤（V-x2F-D-x2F-I-x2F-W-x2F-E-x2F-F-x2F-S）" class="headerlink" title="按级别过滤（V&#x2F;D&#x2F;I&#x2F;W&#x2F;E&#x2F;F&#x2F;S）"></a>按级别过滤（V&#x2F;D&#x2F;I&#x2F;W&#x2F;E&#x2F;F&#x2F;S）</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb logcat *:E</span><br></pre></td></tr></table></figure>
+
+<h2 id="清除日志缓冲区"><a href="#清除日志缓冲区" class="headerlink" title="清除日志缓冲区"></a>清除日志缓冲区</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb logcat -c</span><br></pre></td></tr></table></figure>
+
+<h2 id="保存到文件"><a href="#保存到文件" class="headerlink" title="保存到文件"></a>保存到文件</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb logcat -f /sdcard/log.txt</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 检查设备连接</span></span><br><span class="line">adb devices</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 清除旧日志（可选）</span></span><br><span class="line">adb logcat -c</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 开始记录带时间戳的日志到文件</span></span><br><span class="line">adb logcat -v <span class="keyword">time</span> &gt; <span class="string">&quot;C:/Users/KalleNordehammar/Desktop/Android/log.txt&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="内核日志dmesg"><a href="#内核日志dmesg" class="headerlink" title="内核日志dmesg"></a>内核日志dmesg</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">adb shell dmesg</span><br><span class="line">adb shell dmesg | grep -i error</span><br></pre></td></tr></table></figure>
+
+<h3 id="方法一：通过包名过滤"><a href="#方法一：通过包名过滤" class="headerlink" title="方法一：通过包名过滤"></a>方法一：通过包名过滤</h3><p>首先，你需要知道应用的包名。然后可以通过下面的命令来过滤日志输出：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb logcat | grep `adb shell pidof -s your.package.name`</span><br></pre></td></tr></table></figure>
+
+<p>这里将 <code>your.package.name</code> 替换为实际的应用包名。这个命令组合首先通过 <code>pidof -s your.package.name</code> 获取指定包名的进程ID，然后将其结果用于 <code>logcat</code> 输出的过滤。</p>
+<p>示例：可以将上述结合</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb logcat *:D | grep `adb shell pidof -s com.hansong.primarelinkhd`</span><br></pre></td></tr></table></figure>
+
+<h3 id="方法二：通过进程ID过滤"><a href="#方法二：通过进程ID过滤" class="headerlink" title="方法二：通过进程ID过滤"></a>方法二：通过进程ID过滤</h3><p>如果你已经知道了目标应用的进程ID（PID），可以直接用它来过滤日志：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb logcat --pid=&lt;PID&gt;</span><br></pre></td></tr></table></figure>
+
+<p>将 <code>&lt;PID&gt;</code> 替换成你想要跟踪的实际进程ID。这是查看特定进程日志最直接的方法。</p>
+<h3 id="方法三：使用过滤器"><a href="#方法三：使用过滤器" class="headerlink" title="方法三：使用过滤器"></a>方法三：使用过滤器</h3><ol>
+<li><p><strong>基本命令</strong>：</p>
+<ul>
+<li>只需在终端或命令提示符中输入 <code>adb logcat</code> 即可开始查看设备上的实时日志输出。</li>
+</ul>
+</li>
+<li><p><strong>过滤日志级别</strong>：</p>
+<ul>
+<li>日志信息有不同的级别：V（Verbose）、D（Debug）、I（Info）、W（Warning）、E（Error）、F（Fatal）、S（Silent）。可以通过指定日志级别来过滤输出的信息。</li>
+<li>例如，只查看错误和致命级别的日志可以使用：<code>adb logcat *:E</code></li>
+</ul>
+</li>
+<li><p><strong>清除日志缓冲区</strong>：</p>
+<ul>
+<li>使用 <code>adb logcat -c</code> 命令可以清除设备上的日志缓冲区。</li>
+</ul>
+</li>
+<li><p><strong>查看特定标签的日志</strong>：</p>
+<ul>
+<li>可以通过 <code>-s</code> 选项加上 TAG 来筛选特定应用或服务的日志输出。例如：<code>adb logcat -s MyApplicationTag</code>。</li>
+</ul>
+</li>
+<li><p><strong>格式化输出</strong>：</p>
+<ul>
+<li>使用 <code>-v</code> 选项可以选择不同的输出格式，如 <code>time</code>、<code>thread</code>、<code>long</code> 等等。例如，要添加时间戳到日志行中，可以使用：<code>adb logcat -v time</code>。</li>
+</ul>
+</li>
+<li><p><strong>重定向输出</strong>：</p>
+<ul>
+<li>可以将 <code>adb logcat</code> 的输出重定向到一个文件中以便后续分析：<code>adb logcat &gt; my_logcat.txt</code>。</li>
+</ul>
+</li>
+<li><p><strong>退出实时日志模式</strong>：</p>
+<ul>
+<li>在实时查看日志时，可以按 <code>Ctrl+C</code> 来退出并停止日志抓取。</li>
+</ul>
+</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://flemingme.github.io">Fleming Chen</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://flemingme.github.io/2016/04/09/adb/adb%E5%A6%82%E4%BD%95%E6%9F%A5%E7%9C%8B%E6%97%A5%E5%BF%97/">https://flemingme.github.io/2016/04/09/adb/adb%E5%A6%82%E4%BD%95%E6%9F%A5%E7%9C%8B%E6%97%A5%E5%BF%97/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://flemingme.github.io" target="_blank">Fleming's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/adb/">adb</a></div><div class="post-share"><div class="social-share" data-image="/img/avatar.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>If you like my article, you can reward me to support my writing.</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/reward/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/reward/wechat.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/reward/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/reward/alipay.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2016/07/03/adb/adb%20input%E6%8C%87%E4%BB%A4%E5%90%88%E9%9B%86/" title="adb input指令合集"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">adb input指令合集</div></div><div class="info-2"><div class="info-item-1">adb input指令合集keyevent   键位 编号 键位 编号    返回键 4 HOME键 3   音量+ 24 音量- 25   电源键 26 回车键 66   菜单键 82 拍照键 27   0-9数字键 7-16 A-Z字母键 29-54    解锁 1input keyevent 82  上滑 1input swipe 500 1000 500 300  点击某处 1input tap 300 500  </div></div></div></a><a class="pagination-related" href="/2016/02/08/adb/adb%E5%A6%82%E4%BD%95%E6%9F%A5%E7%9C%8B%E8%AE%BE%E5%A4%87%E4%BF%A1%E6%81%AF/" title="adb如何查看设备信息"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">adb如何查看设备信息</div></div><div class="info-2"><div class="info-item-1">adb如何查看设备信息 ADB，即 Android Debug Bridge，它是 Android 开发&#x2F;测试人员不可替代的强大工具，也是 Android 设备玩家的好玩具。   [型号] 1adb shell getprop ro.product.model  [电池状况] 1adb shell dumpsys battery 其中 scale 代表最大电量，level 代表当前电量。上面的输出表示还剩下 44% 的电量。  [屏幕分辨率] 1adb shell wm size  [屏幕密度] 1adb shell wm density  [显示屏参数] 1adb shell dumpsys window displays 其中 mDisplayId 为 显示屏编号，init 是初始分辨率和屏幕密度，app 的高度比 init 里的要小，表示屏幕底部有虚拟按键，高度为 1920 - 1794 &#x3D; 126px 合 42dp。  [android_id] 1adb shell settings get secure android_id  [IMEI]在 And...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2016/02/08/adb/adb%E5%91%BD%E4%BB%A4%E5%90%AF%E5%8A%A8Activity%E7%A6%81%E7%94%A8APP/" title="adb命令启动Activity禁用APP"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2016-02-08</div><div class="info-item-2">adb命令启动Activity禁用APP</div></div><div class="info-2"><div class="info-item-1">adb命令启动Activity禁用APP 启动命令：adb shell am start -n package&#x2F;launch activity例如： 1adb shell am start -n com.android.settings/.Settings 关闭命令：adb shell am force-stop package例如： 1adb shell am force-stop com.github.kolacbb.ids  禁用应用 12adb shell pm disable-user com.android.vendingadb shell pm enable com.android.vending  </div></div></div></a><a class="pagination-related" href="/2016/02/08/adb/adb%E5%A6%82%E4%BD%95%E6%9F%A5%E7%9C%8Bapk%E5%8C%85%E5%90%8D/" title="adb如何查看apk包名"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2016-02-08</div><div class="info-item-2">adb如何查看apk包名</div></div><div class="info-2"><div class="info-item-1">adb如何查看apk包名 已安装的apk，点击打开app 1adb shell dumpsys window | grep -E &quot;mCurrentFocus|mFocusedApp&quot; 或者 1adb shell dumpsys activity activities | grep -E &quot;ResumedActivity|FocusedActivity&quot; 实时查看 1adb logcat | grep START  未安装的apk文件 1aapt dump badging app-release.apk 或者 1aapt dump xmltree app-release.apk AndroidManifest.xml | findstr &quot;package&quot;  </div></div></div></a><a class="pagination-related" href="/2016/02/08/adb/adb%E5%A6%82%E4%BD%95%E5%88%B7%E6%96%B0Captive%20Portal%E5%9C%B0%E5%9D%80/" title="adb如何刷新Captive Portal地址"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2016-02-08</div><div class="info-item-2">adb如何刷新Captive Portal地址</div></div><div class="info-2"><div class="info-item-1">adb如何刷新Captive Portal地址什么是 Captive Portal？Captive Portal 是一种网络机制，常见于公共 Wi-Fi（如机场、咖啡馆、酒店等）。当你连接这类 Wi-Fi 后，通常会被重定向到一个登录或认证页面（比如需要点击“同意条款”或输入账号密码），才能访问互联网。 Android 需要自动判断当前网络是否处于这种受限状态，以便在状态栏显示“需要登录”提示，并引导用户打开浏览器完成认证。  http://captive.v2ex.co/generate_204 是一个国内可用、返回标准 HTTP 204 响应的网络检测地址，由V2EX 提供，常用于替代 Google 默认地址，解决 Android 在中国大陆等地区误报“无网络”的问题。  删除默认的地址 12adb shell settings delete global captive_portal_https_urladb shell settings delete global captive_portal_http_url  修改新的地址 12adb shell settings p...</div></div></div></a><a class="pagination-related" href="/2016/08/27/adb/adb%E6%9F%A5%E7%9C%8B%E6%9C%8D%E5%8A%A1%E5%88%97%E8%A1%A8/" title="adb查看服务列表"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2016-08-27</div><div class="info-item-2">adb查看服务列表</div></div><div class="info-2"><div class="info-item-1">adb查看服务列表1adb shell service list  adb查看当前运行的服务在 Android 开发和调试中，你可以使用 adb (Android Debug Bridge) 命令结合 dumpsys 工具来查看当前系统中运行的服务。最常用和有效的方法是使用 dumpsys activity services 命令。 🔧 核心命令1adb shell dumpsys activity services [PACKAGE_NAME]  详细说明： 查看所有运行的服务： 1adb shell dumpsys activity services  这个命令会输出系统中所有正在运行的 Service 的详细信息，内容非常多。 输出会按包名（SERVICE 行）和进程进行分组。 信息包括：服务名称、进程 ID (PID)、启动状态（started=true/false）、绑定信息（connections）、创建时间等。   查看特定应用包名下的服务： 1adb shell dumpsys activity services com.example.myapp  将 com...</div></div></div></a><a class="pagination-related" href="/2016/02/08/adb/adb%E5%A6%82%E4%BD%95%E6%9F%A5%E7%9C%8B%E8%AE%BE%E5%A4%87%E4%BF%A1%E6%81%AF/" title="adb如何查看设备信息"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2016-02-08</div><div class="info-item-2">adb如何查看设备信息</div></div><div class="info-2"><div class="info-item-1">adb如何查看设备信息 ADB，即 Android Debug Bridge，它是 Android 开发&#x2F;测试人员不可替代的强大工具，也是 Android 设备玩家的好玩具。   [型号] 1adb shell getprop ro.product.model  [电池状况] 1adb shell dumpsys battery 其中 scale 代表最大电量，level 代表当前电量。上面的输出表示还剩下 44% 的电量。  [屏幕分辨率] 1adb shell wm size  [屏幕密度] 1adb shell wm density  [显示屏参数] 1adb shell dumpsys window displays 其中 mDisplayId 为 显示屏编号，init 是初始分辨率和屏幕密度，app 的高度比 init 里的要小，表示屏幕底部有虚拟按键，高度为 1920 - 1794 &#x3D; 126px 合 42dp。  [android_id] 1adb shell settings get secure android_id  [IMEI]在 And...</div></div></div></a><a class="pagination-related" href="/2016/07/03/adb/adb%20input%E6%8C%87%E4%BB%A4%E5%90%88%E9%9B%86/" title="adb input指令合集"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2016-07-03</div><div class="info-item-2">adb input指令合集</div></div><div class="info-2"><div class="info-item-1">adb input指令合集keyevent   键位 编号 键位 编号    返回键 4 HOME键 3   音量+ 24 音量- 25   电源键 26 回车键 66   菜单键 82 拍照键 27   0-9数字键 7-16 A-Z字母键 29-54    解锁 1input keyevent 82  上滑 1input swipe 500 1000 500 300  点击某处 1input tap 300 500  </div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Fleming Chen</div><div class="author-info-description">不积跬步无以至千里，不积小流无以成江海。——《荀子·劝学》</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">97</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">33</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/flemingme"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/flemingme" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:flemingchen@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="https://x.com/fleming_chen" target="_blank" title="X"><i class="fab fa-x" style="color: #1da1f2;"></i></a><a class="social-icon" href="https://www.zhihu.com/people/flemingchen" target="_blank" title="Zhihu"><i class="fab fa-zhihu" style="color: #0084ff;"></i></a><a class="social-icon" href="https://flemingme.github.io/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss" style="color: #ff6b35;"></i></a><a class="social-icon" href="https://juejin.cn/user/2172290703832125" target="_blank" title="Juejin"><i class="fab fa-juejin" style="color: #1e80ff;"></i></a><a class="social-icon" href="https://www.jianshu.com/u/4864c735a8fc" target="_blank" title="Jianshu"><i class="fab fa-jianshu" style="color: #f6043e;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Welcome to my blog!</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#adb%E5%A6%82%E4%BD%95%E6%9F%A5%E7%9C%8B%E6%97%A5%E5%BF%97"><span class="toc-number">1.</span> <span class="toc-text">adb如何查看日志</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%89%80%E6%9C%89%E6%97%A5%E5%BF%97"><span class="toc-number">1.1.</span> <span class="toc-text">查看所有日志</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E7%89%B9%E5%AE%9A%E7%BC%93%E5%86%B2%E5%8C%BA"><span class="toc-number">1.2.</span> <span class="toc-text">查看特定缓冲区</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%89%E6%A0%87%E7%AD%BE%E8%BF%87%E6%BB%A4"><span class="toc-number">1.3.</span> <span class="toc-text">按标签过滤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%89%E7%BA%A7%E5%88%AB%E8%BF%87%E6%BB%A4%EF%BC%88V-x2F-D-x2F-I-x2F-W-x2F-E-x2F-F-x2F-S%EF%BC%89"><span class="toc-number">1.4.</span> <span class="toc-text">按级别过滤（V&#x2F;D&#x2F;I&#x2F;W&#x2F;E&#x2F;F&#x2F;S）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B8%85%E9%99%A4%E6%97%A5%E5%BF%97%E7%BC%93%E5%86%B2%E5%8C%BA"><span class="toc-number">1.5.</span> <span class="toc-text">清除日志缓冲区</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%9D%E5%AD%98%E5%88%B0%E6%96%87%E4%BB%B6"><span class="toc-number">1.6.</span> <span class="toc-text">保存到文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E6%A0%B8%E6%97%A5%E5%BF%97dmesg"><span class="toc-number">1.7.</span> <span class="toc-text">内核日志dmesg</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%B8%80%EF%BC%9A%E9%80%9A%E8%BF%87%E5%8C%85%E5%90%8D%E8%BF%87%E6%BB%A4"><span class="toc-number">1.7.1.</span> <span class="toc-text">方法一：通过包名过滤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%BA%8C%EF%BC%9A%E9%80%9A%E8%BF%87%E8%BF%9B%E7%A8%8BID%E8%BF%87%E6%BB%A4"><span class="toc-number">1.7.2.</span> <span class="toc-text">方法二：通过进程ID过滤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%B8%89%EF%BC%9A%E4%BD%BF%E7%94%A8%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="toc-number">1.7.3.</span> <span class="toc-text">方法三：使用过滤器</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/01/16/%E9%9F%B3%E9%A2%91/%E9%9F%B3%E9%A2%91%E6%B5%81%E5%A4%84%E7%90%86%E8%BF%87%E7%A8%8B/" title="音频流处理过程">音频流处理过程</a><time datetime="2026-01-16T02:51:17.037Z" title="发表于 2026-01-16 10:51:17">2026-01-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/01/06/%E9%9F%B3%E9%A2%91/AOIP%E5%92%8CVOIP/" title="AOIP和VOIP">AOIP和VOIP</a><time datetime="2026-01-06T01:33:54.800Z" title="发表于 2026-01-06 09:33:54">2026-01-06</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/08/28/%E9%9F%B3%E9%A2%91/AudioFlinger%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" title="AudioFlinger的基本概念">AudioFlinger的基本概念</a><time datetime="2025-08-28T03:09:00.629Z" title="发表于 2025-08-28 11:09:00">2025-08-28</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/08/20/%E9%9F%B3%E9%A2%91/%E9%9F%B3%E9%A2%91%E9%A2%86%E5%9F%9F%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" title="音频领域基本概念">音频领域基本概念</a><time datetime="2025-08-20T01:51:40.515Z" title="发表于 2025-08-20 09:51:40">2025-08-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/08/19/%E6%89%A9%E5%B1%95/Unicast%E3%80%81Multicast%E3%80%81Broadcast%E7%9A%84%E5%90%AB%E4%B9%89%E5%8F%8A%E5%85%B3%E7%B3%BB/" title="Unicast、Multicast、Broadcast的含义及关系">Unicast、Multicast、Broadcast的含义及关系</a><time datetime="2025-08-19T01:56:56.936Z" title="发表于 2025-08-19 09:56:56">2025-08-19</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/footer.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2016 - 2026 By Fleming Chen</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 6.1.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章..." type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.4"></script></div></div></body></html>

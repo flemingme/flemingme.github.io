@@ -1,0 +1,275 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>adb常用指令 | Fleming's Blog</title><meta name="author" content="Fleming Chen"><meta name="copyright" content="Fleming Chen"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="adb常用指令重启 -p是关机1adb shell reboot -p  WIFI 打开&#x2F;关闭wifi 1adb shell svc wifi enable&#x2F;disable  进入wifi列表页面 1adb shell am start -a android.settings.WIFI_SETTINGS  强制横屏1adb shell settings put system user_r">
+<meta property="og:type" content="article">
+<meta property="og:title" content="adb常用指令">
+<meta property="og:url" content="https://flemingme.github.io/2016/09/08/adb/adb%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/index.html">
+<meta property="og:site_name" content="Fleming&#39;s Blog">
+<meta property="og:description" content="adb常用指令重启 -p是关机1adb shell reboot -p  WIFI 打开&#x2F;关闭wifi 1adb shell svc wifi enable&#x2F;disable  进入wifi列表页面 1adb shell am start -a android.settings.WIFI_SETTINGS  强制横屏1adb shell settings put system user_r">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://flemingme.github.io/img/avatar.png">
+<meta property="article:published_time" content="2016-09-08T03:56:34.652Z">
+<meta property="article:modified_time" content="2016-01-15T08:00:23.882Z">
+<meta property="article:author" content="Fleming Chen">
+<meta property="article:tag" content="adb">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://flemingme.github.io/img/avatar.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "adb常用指令",
+  "url": "https://flemingme.github.io/2016/09/08/adb/adb%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/",
+  "image": "https://flemingme.github.io/img/avatar.png",
+  "datePublished": "2016-09-08T03:56:34.652Z",
+  "dateModified": "2016-01-15T08:00:23.882Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Fleming Chen",
+      "url": "https://flemingme.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://flemingme.github.io/2016/09/08/adb/adb%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.json","preload":true,"top_n_per_article":3,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'adb常用指令',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 6.1.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">97</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">33</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user-circle"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/default-top.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Fleming's Blog</span></a><a class="nav-page-title" href="/"><span class="site-name">adb常用指令</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user-circle"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">adb常用指令</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2016-09-08T03:56:34.652Z" title="发表于 2016-09-08 11:56:34">2016-09-08</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2016-01-15T08:00:23.882Z" title="更新于 2016-01-15 16:00:23">2016-01-15</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/ADB/">ADB</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="adb常用指令"><a href="#adb常用指令" class="headerlink" title="adb常用指令"></a>adb常用指令</h1><h2 id="重启-p是关机"><a href="#重启-p是关机" class="headerlink" title="重启 -p是关机"></a>重启 -p是关机</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell reboot -p</span><br></pre></td></tr></table></figure>
+
+<h2 id="WIFI"><a href="#WIFI" class="headerlink" title="WIFI"></a>WIFI</h2><ul>
+<li><p>打开&#x2F;关闭wifi</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell svc wifi <span class="built_in">enable</span>/disable</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>进入wifi列表页面</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell am start -a android.settings.WIFI_SETTINGS</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="强制横屏"><a href="#强制横屏" class="headerlink" title="强制横屏"></a>强制横屏</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell settings put system user_rotation 3</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-设备连接状态"><a href="#1-设备连接状态" class="headerlink" title="1. 设备连接状态"></a>1. <strong>设备连接状态</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb devices</span><br></pre></td></tr></table></figure>
+<ul>
+<li>显示当前通过 USB 或网络连接的所有设备及其状态（如 <code>device</code>、<code>offline</code>、<code>unauthorized</code>）。</li>
+</ul>
+<hr>
+<h3 id="2-设备型号与厂商信息"><a href="#2-设备型号与厂商信息" class="headerlink" title="2. 设备型号与厂商信息"></a>2. <strong>设备型号与厂商信息</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">adb shell getprop ro.product.model      <span class="comment"># 设备型号</span></span><br><span class="line">adb shell getprop ro.product.manufacturer  <span class="comment"># 制造商</span></span><br><span class="line">adb shell getprop ro.product.brand      <span class="comment"># 品牌</span></span><br><span class="line">adb shell getprop ro.build.version.release  <span class="comment"># Android 版本（如 13）</span></span><br><span class="line">adb shell getprop ro.build.version.sdk      <span class="comment"># SDK 版本号（如 33）</span></span><br><span class="line">adb shell getprop ro.build.display.id   <span class="comment"># 构建版本号（Build ID）</span></span><br><span class="line">adb shell getprop ro.serialno           <span class="comment"># 设备序列号（部分设备支持）</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="3-设备唯一标识"><a href="#3-设备唯一标识" class="headerlink" title="3. 设备唯一标识"></a>3. <strong>设备唯一标识</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell settings get secure android_id  <span class="comment"># Android ID（每台设备唯一，应用沙盒内可见）</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：IMEI、MAC 地址等敏感信息在较新 Android 版本中受限，普通 ADB shell 无法直接获取（需 root 或特殊权限）。</p>
+</blockquote>
+<hr>
+<h3 id="4-屏幕与显示信息"><a href="#4-屏幕与显示信息" class="headerlink" title="4. 屏幕与显示信息"></a>4. <strong>屏幕与显示信息</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">adb shell wm size        <span class="comment"># 屏幕分辨率（如 1080x1920）</span></span><br><span class="line">adb shell wm density     <span class="comment"># 屏幕密度（dpi，如 420）</span></span><br><span class="line">adb shell dumpsys display | grep mDisplayInfo  <span class="comment"># 更详细的显示信息</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="5-电池信息"><a href="#5-电池信息" class="headerlink" title="5. 电池信息"></a>5. <strong>电池信息</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell dumpsys battery</span><br></pre></td></tr></table></figure>
+<ul>
+<li>显示电池状态（充电状态、电量百分比、健康度、电压等）。</li>
+</ul>
+<hr>
+<h3 id="6-内存与存储"><a href="#6-内存与存储" class="headerlink" title="6. 内存与存储"></a>6. <strong>内存与存储</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">adb shell <span class="built_in">cat</span> /proc/meminfo          <span class="comment"># 内存信息（总内存、可用内存等）</span></span><br><span class="line">adb shell <span class="built_in">df</span>                         <span class="comment"># 存储分区使用情况</span></span><br><span class="line">adb shell <span class="built_in">df</span> /data                   <span class="comment"># 查看/data分区</span></span><br><span class="line">adb shell <span class="built_in">cat</span> /proc/partitions       <span class="comment"># 分区列表</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="7-CPU-与架构"><a href="#7-CPU-与架构" class="headerlink" title="7. CPU 与架构"></a>7. <strong>CPU 与架构</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">adb shell <span class="built_in">cat</span> /proc/device-tree/model# Soc型号</span><br><span class="line">adb shell <span class="built_in">cat</span> /proc/cpuinfo          <span class="comment"># CPU 详细信息（核心数、架构、频率等）</span></span><br><span class="line">adb shell getprop ro.product.cpu.abi <span class="comment"># 主 ABI（如 arm64-v8a）</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="8-网络信息"><a href="#8-网络信息" class="headerlink" title="8. 网络信息"></a>8. <strong>网络信息</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">adb shell ifconfig                   <span class="comment"># 网络接口信息（IP、MAC 等，部分设备需 busybox）</span></span><br><span class="line">adb shell ip addr                    <span class="comment"># 较新设备推荐使用 ip 命令</span></span><br><span class="line">adb shell netstat                    <span class="comment"># 网络连接状态</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="9-系统运行时间与启动信息"><a href="#9-系统运行时间与启动信息" class="headerlink" title="9. 系统运行时间与启动信息"></a>9. <strong>系统运行时间与启动信息</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">adb shell <span class="built_in">uptime</span>                     <span class="comment"># 系统已运行时间</span></span><br><span class="line">adb shell getprop sys.boot_completed <span class="comment"># 是否已完成启动（1 表示完成）</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="10-已安装应用列表"><a href="#10-已安装应用列表" class="headerlink" title="10. 已安装应用列表"></a>10. <strong>已安装应用列表</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">adb shell pm list packages           <span class="comment"># 所有已安装包名</span></span><br><span class="line">adb shell pm list packages -3        <span class="comment"># 仅第三方应用</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="11-设备日志（Logcat）"><a href="#11-设备日志（Logcat）" class="headerlink" title="11. 设备日志（Logcat）"></a>11. <strong>设备日志（Logcat）</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb logcat                           <span class="comment"># 实时输出系统日志（需权限）</span></span><br></pre></td></tr></table></figure>
+
+<p>要通过 ADB 查看 Android 设备当前<strong>启动了哪些服务（running services）</strong>，可以使用以下几种方法。注意：Android 中的“服务”通常指 <strong>系统服务（system services）</strong> 或 <strong>应用层的 Service 组件（running app services）</strong>，两者查看方式不同。</p>
+<hr>
+<h2 id="✅-一、查看正在运行的-应用层-Service（App-Services）"><a href="#✅-一、查看正在运行的-应用层-Service（App-Services）" class="headerlink" title="✅ 一、查看正在运行的 应用层 Service（App Services）"></a>✅ 一、查看正在运行的 <strong>应用层 Service（App Services）</strong></h2><p>这是最常见的需求：想知道哪些 App 的 <code>Service</code> 正在运行。</p>
+<h3 id="命令："><a href="#命令：" class="headerlink" title="命令："></a>命令：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell dumpsys activity services</span><br></pre></td></tr></table></figure>
+
+<h3 id="说明："><a href="#说明：" class="headerlink" title="说明："></a>说明：</h3><ul>
+<li>输出所有当前活跃的 <strong>ActivityManager 管理的服务</strong>。</li>
+<li>包含服务所属包名、类名、启动方式（startService &#x2F; bind）、进程 PID、运行状态等。</li>
+<li>可配合 <code>grep</code> 过滤特定包：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell dumpsys activity services | grep -A 10 -B 2 <span class="string">&quot;com.example.app&quot;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<blockquote>
+<p>⚠️ 注意：从 Android 8.0（API 26）开始，后台服务限制加强，很多服务可能不会长期运行。</p>
+</blockquote>
+<hr>
+<h2 id="✅-二、查看系统级-系统服务（System-Services）"><a href="#✅-二、查看系统级-系统服务（System-Services）" class="headerlink" title="✅ 二、查看系统级 系统服务（System Services）"></a>✅ 二、查看系统级 <strong>系统服务（System Services）</strong></h2><p>这些是 Android Framework 层的服务，如 <code>activity</code>, <code>package</code>, <code>battery</code>, <code>location</code> 等。</p>
+<h3 id="列出所有已注册的系统服务："><a href="#列出所有已注册的系统服务：" class="headerlink" title="列出所有已注册的系统服务："></a>列出所有已注册的系统服务：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell service list</span><br></pre></td></tr></table></figure>
+
+<h3 id="输出示例："><a href="#输出示例：" class="headerlink" title="输出示例："></a>输出示例：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Found 150 services:</span><br><span class="line">0       sip: [android.net.sip.ISipService]</span><br><span class="line">1       phone: [com.android.internal.telephony.ITelephony]</span><br><span class="line">2       isms: [com.android.internal.telephony.ISms]</span><br><span class="line">...</span><br><span class="line">149     graphicsstats: [android.ui.IGraphicsStats]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>每行格式：<code>序号 服务名: [接口]</code></li>
+<li>这些服务由 <code>ServiceManager</code> 管理，是 Binder 通信的基础。</li>
+</ul>
+<hr>
+<h2 id="✅-三、查看正在运行的-进程（Processes）"><a href="#✅-三、查看正在运行的-进程（Processes）" class="headerlink" title="✅ 三、查看正在运行的 进程（Processes）"></a>✅ 三、查看正在运行的 <strong>进程（Processes）</strong></h2><p>虽然不是“服务”，但很多服务运行在进程中，可辅助判断：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">adb shell ps -A          <span class="comment"># 所有进程（较新设备）</span></span><br><span class="line">adb shell ps             <span class="comment"># 旧版 Android</span></span><br><span class="line">adb shell ps | grep com.your.package</span><br></pre></td></tr></table></figure>
+
+<p>或更详细地：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell ps -ef</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="✅-四、结合-dumpsys-查看特定服务状态"><a href="#✅-四、结合-dumpsys-查看特定服务状态" class="headerlink" title="✅ 四、结合 dumpsys 查看特定服务状态"></a>✅ 四、结合 <code>dumpsys</code> 查看特定服务状态</h2><p>你可以查看某个具体系统服务的内部状态，例如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">adb shell dumpsys activity          <span class="comment"># Activity 和 Service 状态</span></span><br><span class="line">adb shell dumpsys package           <span class="comment"># 包管理服务信息</span></span><br><span class="line">adb shell dumpsys battery           <span class="comment"># 电池服务</span></span><br><span class="line">adb shell dumpsys location          <span class="comment"># 定位服务</span></span><br><span class="line">adb shell dumpsys alarm             <span class="comment"># AlarmManager 服务</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="🔒-权限说明："><a href="#🔒-权限说明：" class="headerlink" title="🔒 权限说明："></a>🔒 权限说明：</h2><ul>
+<li>上述命令<strong>不需要 root</strong>，但部分详细信息（如某些私有服务内部状态）可能受限。</li>
+<li>在 Android 10+ 中，非调试版系统对 <code>dumpsys</code> 的输出做了隐私限制（如隐藏其他应用的敏感信息）。</li>
+</ul>
+<hr>
+<h2 id="📌-总结"><a href="#📌-总结" class="headerlink" title="📌 总结"></a>📌 总结</h2><table>
+<thead>
+<tr>
+<th>目标</th>
+<th>命令</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>查看 App 的 Service 是否在运行</td>
+<td><code>adb shell dumpsys activity services</code></td>
+</tr>
+<tr>
+<td>查看所有系统服务列表</td>
+<td><code>adb shell service list</code></td>
+</tr>
+<tr>
+<td>查看某系统服务详细状态</td>
+<td><code>adb shell dumpsys &lt;service_name&gt;</code></td>
+</tr>
+<tr>
+<td>查看进程（辅助判断）</td>
+<td><code>adb shell ps -A</code></td>
+</tr>
+</tbody></table>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://flemingme.github.io">Fleming Chen</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://flemingme.github.io/2016/09/08/adb/adb%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/">https://flemingme.github.io/2016/09/08/adb/adb%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://flemingme.github.io" target="_blank">Fleming's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/adb/">adb</a></div><div class="post-share"><div class="social-share" data-image="/img/avatar.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>If you like my article, you can reward me to support my writing.</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/reward/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/reward/wechat.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/reward/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/reward/alipay.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2017/01/29/%E6%89%A9%E5%B1%95/Vim%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/" title="Vim常用操作"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Vim常用操作</div></div><div class="info-2"><div class="info-item-1">Vim常用操作在 Vim 中进行整行复制（yank）和粘贴（put）的操作非常简单。以下是常用方法：  🔹 复制整行 将光标移动到要复制的行。 按 yy（或 Y）：复制当前整行（包括换行符）。   例如：光标在第5行，按 yy → 第5行被复制到默认寄存器。   🔹 粘贴整行 将光标移动到目标位置。 按 p：在当前行下方粘贴一行。 按 P（大写）：在当前行上方粘贴一行。   例如：光标在第10行，按 p → 复制的内容插入为第11行。按 P → 插入为第10行，原第10行下移。   🔹 其他相关技巧 复制多行：    3yy：从当前行开始向下复制3行。 5Y：同上，等效于 5yy。   删除并复制（剪切）整行：    dd：删除当前行（同时放入寄存器，可粘贴）。 3dd：删除3行。   查看寄存器内容（可选）：    :reg 或 :registers：查看所有寄存器内容，确认复制了什么。     ✅ 示例流程 光标移到要复制的行。 按 yy。 移动光标到目标位置。 按 p（下方粘贴）或 P（上方粘贴）。   如有更多 Vim 相关问题（比如跨文件复制、使用命名寄存器等），...</div></div></div></a><a class="pagination-related" href="/2016/08/27/adb/adb%E6%9F%A5%E7%9C%8B%E6%9C%8D%E5%8A%A1%E5%88%97%E8%A1%A8/" title="adb查看服务列表"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">adb查看服务列表</div></div><div class="info-2"><div class="info-item-1">adb查看服务列表1adb shell service list  adb查看当前运行的服务在 Android 开发和调试中，你可以使用 adb (Android Debug Bridge) 命令结合 dumpsys 工具来查看当前系统中运行的服务。最常用和有效的方法是使用 dumpsys activity services 命令。 🔧 核心命令1adb shell dumpsys activity services [PACKAGE_NAME]  详细说明： 查看所有运行的服务： 1adb shell dumpsys activity services  这个命令会输出系统中所有正在运行的 Service 的详细信息，内容非常多。 输出会按包名（SERVICE 行）和进程进行分组。 信息包括：服务名称、进程 ID (PID)、启动状态（started=true/false）、绑定信息（connections）、创建时间等。   查看特定应用包名下的服务： 1adb shell dumpsys activity services com.example.myapp  将 com...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2016/07/03/adb/adb%20input%E6%8C%87%E4%BB%A4%E5%90%88%E9%9B%86/" title="adb input指令合集"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2016-07-03</div><div class="info-item-2">adb input指令合集</div></div><div class="info-2"><div class="info-item-1">adb input指令合集keyevent   键位 编号 键位 编号    返回键 4 HOME键 3   音量+ 24 音量- 25   电源键 26 回车键 66   菜单键 82 拍照键 27   0-9数字键 7-16 A-Z字母键 29-54    解锁 1input keyevent 82  上滑 1input swipe 500 1000 500 300  点击某处 1input tap 300 500  </div></div></div></a><a class="pagination-related" href="/2016/08/27/adb/adb%E6%9F%A5%E7%9C%8B%E6%9C%8D%E5%8A%A1%E5%88%97%E8%A1%A8/" title="adb查看服务列表"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2016-08-27</div><div class="info-item-2">adb查看服务列表</div></div><div class="info-2"><div class="info-item-1">adb查看服务列表1adb shell service list  adb查看当前运行的服务在 Android 开发和调试中，你可以使用 adb (Android Debug Bridge) 命令结合 dumpsys 工具来查看当前系统中运行的服务。最常用和有效的方法是使用 dumpsys activity services 命令。 🔧 核心命令1adb shell dumpsys activity services [PACKAGE_NAME]  详细说明： 查看所有运行的服务： 1adb shell dumpsys activity services  这个命令会输出系统中所有正在运行的 Service 的详细信息，内容非常多。 输出会按包名（SERVICE 行）和进程进行分组。 信息包括：服务名称、进程 ID (PID)、启动状态（started=true/false）、绑定信息（connections）、创建时间等。   查看特定应用包名下的服务： 1adb shell dumpsys activity services com.example.myapp  将 com...</div></div></div></a><a class="pagination-related" href="/2016/04/09/adb/adb%E5%A6%82%E4%BD%95%E6%9F%A5%E7%9C%8B%E6%97%A5%E5%BF%97/" title="adb如何查看日志"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2016-04-09</div><div class="info-item-2">adb如何查看日志</div></div><div class="info-2"><div class="info-item-1">adb如何查看日志adb logcat 是 Android 调试桥（ADB）工具的一部分，用于从 Android 设备上获取日志数据。这些日志包括设备上运行的应用程序和系统本身的输出信息。以下是一些基本的 adb logcat 指令及其用法： 查看所有日志1adb logcat  查看特定缓冲区12345adb logcat -b mainadb logcat -b systemadb logcat -b radioadb logcat -b eventsadb logcat -b crash  按标签过滤1adb logcat -s &quot;MyTag&quot;  按级别过滤（V&#x2F;D&#x2F;I&#x2F;W&#x2F;E&#x2F;F&#x2F;S）1adb logcat *:E  清除日志缓冲区1adb logcat -c  保存到文件1adb logcat -f /sdcard/log.txt  12345678# 1. 检查设备连接adb devices# 2. 清除旧日志（可选）adb logcat -c# 3. 开始记录带时间戳的日志到文件adb ...</div></div></div></a><a class="pagination-related" href="/2016/02/08/adb/adb%E5%91%BD%E4%BB%A4%E5%90%AF%E5%8A%A8Activity%E7%A6%81%E7%94%A8APP/" title="adb命令启动Activity禁用APP"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2016-02-08</div><div class="info-item-2">adb命令启动Activity禁用APP</div></div><div class="info-2"><div class="info-item-1">adb命令启动Activity禁用APP 启动命令：adb shell am start -n package&#x2F;launch activity例如： 1adb shell am start -n com.android.settings/.Settings 关闭命令：adb shell am force-stop package例如： 1adb shell am force-stop com.github.kolacbb.ids  禁用应用 12adb shell pm disable-user com.android.vendingadb shell pm enable com.android.vending  </div></div></div></a><a class="pagination-related" href="/2016/02/08/adb/adb%E5%A6%82%E4%BD%95%E6%9F%A5%E7%9C%8B%E8%AE%BE%E5%A4%87%E4%BF%A1%E6%81%AF/" title="adb如何查看设备信息"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2016-02-08</div><div class="info-item-2">adb如何查看设备信息</div></div><div class="info-2"><div class="info-item-1">adb如何查看设备信息 ADB，即 Android Debug Bridge，它是 Android 开发&#x2F;测试人员不可替代的强大工具，也是 Android 设备玩家的好玩具。   [型号] 1adb shell getprop ro.product.model  [电池状况] 1adb shell dumpsys battery 其中 scale 代表最大电量，level 代表当前电量。上面的输出表示还剩下 44% 的电量。  [屏幕分辨率] 1adb shell wm size  [屏幕密度] 1adb shell wm density  [显示屏参数] 1adb shell dumpsys window displays 其中 mDisplayId 为 显示屏编号，init 是初始分辨率和屏幕密度，app 的高度比 init 里的要小，表示屏幕底部有虚拟按键，高度为 1920 - 1794 &#x3D; 126px 合 42dp。  [android_id] 1adb shell settings get secure android_id  [IMEI]在 And...</div></div></div></a><a class="pagination-related" href="/2016/02/08/adb/adb%E5%A6%82%E4%BD%95%E6%9F%A5%E7%9C%8Bapk%E5%AF%86%E9%92%A5/" title="adb如何查看apk密钥"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2016-02-08</div><div class="info-item-2">adb如何查看apk密钥</div></div><div class="info-2"><div class="info-item-1">adb如何查看apk密钥 根据CERT.RSA 1keytool -printcert -file CERT.RSA  根据jks 1keytool -list -v -keystore platform.jks  </div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Fleming Chen</div><div class="author-info-description">不积跬步无以至千里，不积小流无以成江海。——《荀子·劝学》</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">97</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">33</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/flemingme"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/flemingme" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:flemingchen@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="https://x.com/fleming_chen" target="_blank" title="X"><i class="fab fa-x" style="color: #1da1f2;"></i></a><a class="social-icon" href="https://www.zhihu.com/people/flemingchen" target="_blank" title="Zhihu"><i class="fab fa-zhihu" style="color: #0084ff;"></i></a><a class="social-icon" href="https://flemingme.github.io/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss" style="color: #ff6b35;"></i></a><a class="social-icon" href="https://juejin.cn/user/2172290703832125" target="_blank" title="Juejin"><i class="fab fa-juejin" style="color: #1e80ff;"></i></a><a class="social-icon" href="https://www.jianshu.com/u/4864c735a8fc" target="_blank" title="Jianshu"><i class="fab fa-jianshu" style="color: #f6043e;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Welcome to my blog!</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#adb%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4"><span class="toc-number">1.</span> <span class="toc-text">adb常用指令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%8D%E5%90%AF-p%E6%98%AF%E5%85%B3%E6%9C%BA"><span class="toc-number">1.1.</span> <span class="toc-text">重启 -p是关机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WIFI"><span class="toc-number">1.2.</span> <span class="toc-text">WIFI</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%BA%E5%88%B6%E6%A8%AA%E5%B1%8F"><span class="toc-number">1.3.</span> <span class="toc-text">强制横屏</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E8%AE%BE%E5%A4%87%E8%BF%9E%E6%8E%A5%E7%8A%B6%E6%80%81"><span class="toc-number">1.3.1.</span> <span class="toc-text">1. 设备连接状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E8%AE%BE%E5%A4%87%E5%9E%8B%E5%8F%B7%E4%B8%8E%E5%8E%82%E5%95%86%E4%BF%A1%E6%81%AF"><span class="toc-number">1.3.2.</span> <span class="toc-text">2. 设备型号与厂商信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E8%AE%BE%E5%A4%87%E5%94%AF%E4%B8%80%E6%A0%87%E8%AF%86"><span class="toc-number">1.3.3.</span> <span class="toc-text">3. 设备唯一标识</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%B1%8F%E5%B9%95%E4%B8%8E%E6%98%BE%E7%A4%BA%E4%BF%A1%E6%81%AF"><span class="toc-number">1.3.4.</span> <span class="toc-text">4. 屏幕与显示信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E7%94%B5%E6%B1%A0%E4%BF%A1%E6%81%AF"><span class="toc-number">1.3.5.</span> <span class="toc-text">5. 电池信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E5%86%85%E5%AD%98%E4%B8%8E%E5%AD%98%E5%82%A8"><span class="toc-number">1.3.6.</span> <span class="toc-text">6. 内存与存储</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-CPU-%E4%B8%8E%E6%9E%B6%E6%9E%84"><span class="toc-number">1.3.7.</span> <span class="toc-text">7. CPU 与架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-%E7%BD%91%E7%BB%9C%E4%BF%A1%E6%81%AF"><span class="toc-number">1.3.8.</span> <span class="toc-text">8. 网络信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-%E7%B3%BB%E7%BB%9F%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4%E4%B8%8E%E5%90%AF%E5%8A%A8%E4%BF%A1%E6%81%AF"><span class="toc-number">1.3.9.</span> <span class="toc-text">9. 系统运行时间与启动信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-%E5%B7%B2%E5%AE%89%E8%A3%85%E5%BA%94%E7%94%A8%E5%88%97%E8%A1%A8"><span class="toc-number">1.3.10.</span> <span class="toc-text">10. 已安装应用列表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-%E8%AE%BE%E5%A4%87%E6%97%A5%E5%BF%97%EF%BC%88Logcat%EF%BC%89"><span class="toc-number">1.3.11.</span> <span class="toc-text">11. 设备日志（Logcat）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E2%9C%85-%E4%B8%80%E3%80%81%E6%9F%A5%E7%9C%8B%E6%AD%A3%E5%9C%A8%E8%BF%90%E8%A1%8C%E7%9A%84-%E5%BA%94%E7%94%A8%E5%B1%82-Service%EF%BC%88App-Services%EF%BC%89"><span class="toc-number">1.4.</span> <span class="toc-text">✅ 一、查看正在运行的 应用层 Service（App Services）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%EF%BC%9A"><span class="toc-number">1.4.1.</span> <span class="toc-text">命令：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%B4%E6%98%8E%EF%BC%9A"><span class="toc-number">1.4.2.</span> <span class="toc-text">说明：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E2%9C%85-%E4%BA%8C%E3%80%81%E6%9F%A5%E7%9C%8B%E7%B3%BB%E7%BB%9F%E7%BA%A7-%E7%B3%BB%E7%BB%9F%E6%9C%8D%E5%8A%A1%EF%BC%88System-Services%EF%BC%89"><span class="toc-number">1.5.</span> <span class="toc-text">✅ 二、查看系统级 系统服务（System Services）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%97%E5%87%BA%E6%89%80%E6%9C%89%E5%B7%B2%E6%B3%A8%E5%86%8C%E7%9A%84%E7%B3%BB%E7%BB%9F%E6%9C%8D%E5%8A%A1%EF%BC%9A"><span class="toc-number">1.5.1.</span> <span class="toc-text">列出所有已注册的系统服务：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%93%E5%87%BA%E7%A4%BA%E4%BE%8B%EF%BC%9A"><span class="toc-number">1.5.2.</span> <span class="toc-text">输出示例：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E2%9C%85-%E4%B8%89%E3%80%81%E6%9F%A5%E7%9C%8B%E6%AD%A3%E5%9C%A8%E8%BF%90%E8%A1%8C%E7%9A%84-%E8%BF%9B%E7%A8%8B%EF%BC%88Processes%EF%BC%89"><span class="toc-number">1.6.</span> <span class="toc-text">✅ 三、查看正在运行的 进程（Processes）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E2%9C%85-%E5%9B%9B%E3%80%81%E7%BB%93%E5%90%88-dumpsys-%E6%9F%A5%E7%9C%8B%E7%89%B9%E5%AE%9A%E6%9C%8D%E5%8A%A1%E7%8A%B6%E6%80%81"><span class="toc-number">1.7.</span> <span class="toc-text">✅ 四、结合 dumpsys 查看特定服务状态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%94%92-%E6%9D%83%E9%99%90%E8%AF%B4%E6%98%8E%EF%BC%9A"><span class="toc-number">1.8.</span> <span class="toc-text">🔒 权限说明：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%93%8C-%E6%80%BB%E7%BB%93"><span class="toc-number">1.9.</span> <span class="toc-text">📌 总结</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/01/16/%E9%9F%B3%E9%A2%91/%E9%9F%B3%E9%A2%91%E6%B5%81%E5%A4%84%E7%90%86%E8%BF%87%E7%A8%8B/" title="音频流处理过程">音频流处理过程</a><time datetime="2026-01-16T02:51:17.037Z" title="发表于 2026-01-16 10:51:17">2026-01-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/01/06/%E9%9F%B3%E9%A2%91/AOIP%E5%92%8CVOIP/" title="AOIP和VOIP">AOIP和VOIP</a><time datetime="2026-01-06T01:33:54.800Z" title="发表于 2026-01-06 09:33:54">2026-01-06</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/08/28/%E9%9F%B3%E9%A2%91/AudioFlinger%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" title="AudioFlinger的基本概念">AudioFlinger的基本概念</a><time datetime="2025-08-28T03:09:00.629Z" title="发表于 2025-08-28 11:09:00">2025-08-28</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/08/20/%E9%9F%B3%E9%A2%91/%E9%9F%B3%E9%A2%91%E9%A2%86%E5%9F%9F%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" title="音频领域基本概念">音频领域基本概念</a><time datetime="2025-08-20T01:51:40.515Z" title="发表于 2025-08-20 09:51:40">2025-08-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/08/19/%E6%89%A9%E5%B1%95/Unicast%E3%80%81Multicast%E3%80%81Broadcast%E7%9A%84%E5%90%AB%E4%B9%89%E5%8F%8A%E5%85%B3%E7%B3%BB/" title="Unicast、Multicast、Broadcast的含义及关系">Unicast、Multicast、Broadcast的含义及关系</a><time datetime="2025-08-19T01:56:56.936Z" title="发表于 2025-08-19 09:56:56">2025-08-19</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/footer.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2016 - 2026 By Fleming Chen</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 6.1.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章..." type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.4"></script></div></div></body></html>
